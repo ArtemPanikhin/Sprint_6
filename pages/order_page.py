@@ -1,6 +1,5 @@
 import allure
 import pytest
-
 from data import TestData
 from locators.order_page_locators import OrderPageLocators
 from pages.base_page import BasePage

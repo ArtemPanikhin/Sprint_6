@@ -8,7 +8,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 def driver():
     driver = webdriver.Firefox()
     driver.maximize_window()
-    main_page_url = "https://qa-scooter.praktikum-services.ru/"
     driver.get(main_page_url)
     yield driver
     driver.quit()
