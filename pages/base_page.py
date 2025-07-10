@@ -36,15 +36,6 @@ class BasePage:
     def check_displaying_element(self, locator):
         return self.driver.find_element(*locator).is_displayed()
 
-    @allure.step('Скролл до отображение элемента FAQ')
-    def scroll_to_faq_element(self):
-        faq_element = self.driver.find_element(*MainPageLocators.faq_section)
-        self.driver.execute_script(
-            "arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});",
-            faq_element)
-        self.driver.execute_script("window.scrollBy(0, 100);")
-        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(MainPageLocators.faq_section))
-
     @allure.step('Ждем получения всех элементов')
     def wait_visibility_of_all_elements(self, locator, timeout=10):
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_all_elements_located(locator))
@@ -52,3 +43,22 @@ class BasePage:
     @allure.step('Найти элементы по локатору')
     def find_elements(self, locator):
         return self.driver.find_elements(*locator)
+
+    @allure.step('Ожидание элемента по локатору')
+    def wait_for_element(self, locator, timeout=10, condition=EC.presence_of_element_located):
+        return WebDriverWait(self.driver, timeout).until(condition(locator))
+
+    @allure.step('Скролл до элемента')
+    def scroll_to_element(self, locator, offset=100):
+        element = self.driver.find_element(*locator)
+        y = element.location['y'] - offset
+        self.driver.execute_script(f"window.scrollTo(0, {y});")
+        return element
+
+    @allure.step('Получить текущий URL')
+    def get_current_url(self):
+        return self.driver.current_url
+
+    @allure.step('Проверить соответствие URL')
+    def url_contains(self, url_part):
+        return url_part in self.get_current_url()

@@ -1,5 +1,4 @@
 import allure
-from tests.conftest import driver
 from pages.order_page import OrderPage
 from locators.main_page_locators import MainPageLocators
 from data import *
@@ -11,8 +10,7 @@ class TestOrderPageOrder:
     @pytest.mark.parametrize('button, test_data', [(MainPageLocators.order_button_in_header, TestData.test_data_user1),
                                                    (MainPageLocators.order_button_in_main, TestData.test_data_user2)])
 
-    def test_a_l(self, driver, button, test_data):
-        order_page = OrderPage(driver)
+    def test_a_l(self,order_page, button, test_data):
         order_page.scroll_to_element(button)
         order_page.wait_visibility_of_element(button)
         order_page.click_on_element(button)

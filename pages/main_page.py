@@ -1,7 +1,5 @@
-from selenium.webdriver import ActionChains
-from selenium.webdriver.support import expected_conditions as EC
+
 import allure
-from selenium.webdriver.support.wait import WebDriverWait
 from locators.main_page_locators import MainPageLocators
 from pages.base_page import BasePage
 
@@ -65,9 +63,12 @@ class MainPage(BasePage):  # 5 usages
 
     @allure.step('Ожидание тайтла Дзен')
     def wait_for_dzen_title(self, timeout=10):
-        WebDriverWait(self.driver, timeout).until(
-            EC.presence_of_element_located(MainPageLocators.title_dzen))
+        return self.wait_for_element(MainPageLocators.title_dzen, timeout)
 
     @allure.step('Проверка соответствия url')
-    def is_dzen_page(self):
-        return "dzen.ru" in self.driver.current_url
+    def dzen_page(self):
+        return self.url_contains("dzen.ru")
+
+    @allure.step('Скролл до отображения элемента FAQ')
+    def scroll_to_faq_element(self):
+        self.scroll_to_element(MainPageLocators.faq_section, offset=150)

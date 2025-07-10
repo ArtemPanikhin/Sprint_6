@@ -3,6 +3,8 @@ from selenium import webdriver
 from curl import *
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from pages.main_page import MainPage
+from pages.order_page import OrderPage
 
 @pytest.fixture
 def driver():
@@ -11,3 +13,11 @@ def driver():
     driver.get(main_page_url)
     yield driver
     driver.quit()
+
+@pytest.fixture
+def main_page(driver):
+    return MainPage(driver)
+
+@pytest.fixture
+def order_page(driver):
+    return OrderPage(driver)
